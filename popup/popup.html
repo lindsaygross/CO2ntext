@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>EcoPrompt</title>
+  <link rel="stylesheet" href="popup.css" />
+</head>
+<body>
+  <main class="popup-shell">
+    <header>
+      <div>
+        <h1>EcoPrompt</h1>
+        <p>See the impact behind every prompt.</p>
+      </div>
+      <span class="badge">Beta</span>
+    </header>
+
+    <nav class="tabs" role="tablist">
+      <button data-tab="general" class="active" role="tab" aria-selected="true">General</button>
+      <button data-tab="style" role="tab" aria-selected="false">Style</button>
+      <button data-tab="data" role="tab" aria-selected="false">Data</button>
+    </nav>
+
+    <section data-panel="general" class="active" role="tabpanel">
+      <div class="section">
+        <h2>Model profile</h2>
+        <div class="segmented">
+          <label><input type="radio" name="mode" value="small" /><span>Small</span></label>
+          <label><input type="radio" name="mode" value="balanced" /><span>Balanced</span></label>
+          <label><input type="radio" name="mode" value="large" /><span>Large</span></label>
+        </div>
+        <p class="hint">Choose the model class that best matches your typical AI usage. Smaller models = lower Wh per 1k tokens.</p>
+      </div>
+      <div class="section">
+        <h2>Grid intensity</h2>
+        <select id="grid-select">
+          <option value="400">Global average (400 g CO₂/kWh)</option>
+          <option value="300">Renewable-friendly grid (300 g)</option>
+          <option value="500">Carbon-heavy grid (500 g)</option>
+        </select>
+        <p class="hint">Fine-tune carbon estimates if you know where your data center lives.</p>
+      </div>
+    </section>
+
+    <section data-panel="style" role="tabpanel">
+      <div class="section">
+        <h2>Theme</h2>
+        <div class="theme-grid">
+          <label class="theme-card" data-theme="sage">
+            <input type="radio" name="theme" value="sage" />
+            <span>Sage</span>
+          </label>
+          <label class="theme-card" data-theme="charcoal">
+            <input type="radio" name="theme" value="charcoal" />
+            <span>Charcoal</span>
+          </label>
+          <label class="theme-card" data-theme="sunrise">
+            <input type="radio" name="theme" value="sunrise" />
+            <span>Sunrise</span>
+          </label>
+        </div>
+        <p class="hint">Themes only change on-device styling. No data ever leaves your browser.</p>
+      </div>
+    </section>
+
+    <section data-panel="data" role="tabpanel">
+      <div class="section">
+        <h2>Today’s totals</h2>
+        <div class="totals-grid" id="totals-grid"></div>
+      </div>
+      <div class="section">
+        <h2>Export</h2>
+        <div class="export-buttons">
+          <button id="export-json">Export JSON</button>
+          <button id="export-csv">Export CSV</button>
+        </div>
+        <p class="hint">Includes daily totals with tokens, Wh, g CO₂, and mL water.</p>
+      </div>
+      <div class="section">
+        <h2>Housekeeping</h2>
+        <button id="reset-today" class="ghost">Reset today</button>
+        <button id="clear-history" class="ghost">Clear history</button>
+      </div>
+      <div class="section">
+        <h2>Manual entry</h2>
+        <p class="hint">Log big offline tasks (e.g. CSV upload or batch diffusion run) so EcoPrompt reflects the full footprint.</p>
+        <label class="manual-label" for="manual-modality">Task type</label>
+        <select id="manual-modality">
+          <option value="text">Text / PDF</option>
+          <option value="pdf">Long-form document</option>
+          <option value="image">Image generation</option>
+          <option value="audio">Audio / transcription</option>
+        </select>
+        <label class="manual-label" for="manual-units">Estimated units</label>
+        <input id="manual-units" type="number" min="1" placeholder="Tokens processed" />
+        <small id="manual-hint" class="hint">Tokens processed (approx.). Example: 25,000-token CSV summary.</small>
+        <button id="manual-log" class="primary">Add to totals</button>
+      </div>
+    </section>
+
+    <div id="status" class="status" aria-live="polite"></div>
+
+    <footer>
+      <small>All calculations happen locally using Stanford CRFM, Poddar et al., and CodeCarbon benchmarks.</small>
+    </footer>
+  </main>
+  <script src="popup.js" type="module"></script>
+</body>
+</html>

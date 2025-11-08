@@ -1,0 +1,10 @@
+{
+  "modalities": {
+    "text": {"Wh_per_1k_tokens": 0.5},
+    "image": {"Wh_per_image": 4.0},
+    "pdf": {"Wh_per_1k_tokens": 0.5},
+    "audio": {"Wh_per_min": 0.8}
+  },
+  "grid_CO2_g_per_kWh": 400,
+  "water_L_per_kWh": 1.0
+}
